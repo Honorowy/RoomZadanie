@@ -73,12 +73,6 @@ public class Samochody {
 
     @Override
     public String toString() {
-        return "Samochody{" +
-                "marka='" + marka + '\'' +
-                ", model='" + model + '\'' +
-                ", rokProdukcji=" + rokProdukcji +
-                ", kategoria='" + kategoria + '\'' +
-                ", uszkodzony=" + uszkodzony +
-                '}';
+        return "Marka: " + marka + ", Model: " + model + ", Rok: " + rokProdukcji + ", Kategoria: " + kategoria + ", Uszkodzony: " + uszkodzony;
     }
 }

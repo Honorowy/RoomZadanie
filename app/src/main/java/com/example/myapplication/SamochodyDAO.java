@@ -12,12 +12,14 @@ import java.util.List;
 public interface SamochodyDAO {
     @Insert
     public void wstawDoBazySamochod(Samochody samochody);
+    @Insert
+    public void wstawListeSamochodowDoBazy(Samochody ... samochody);
     @Delete
     public void usunZBazySamochod(Samochody samochody);
     @Update
     public void aktualizujSamochodWBazie(Samochody samochody);
     @Query("SELECT * FROM samochody")
     public List<Samochody> zwrocWszytskieSamochodyZBazy();
-    @Query("SELECT marka, model FROM samochody WHERE rok >:rokParametr")
-    public List<Samochody> zwrocMarkiIModeleSamochodowODanymRoku(int rokParametr);
+    @Query("SELECT marka FROM samochody WHERE rok >:rokParametr")
+    public List<String> zwrocMarkiSamochodowODanymRoku(int rokParametr);
 }
