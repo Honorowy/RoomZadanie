@@ -51,17 +51,18 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.editTextText);
         editText2 = findViewById(R.id.editTextText2);
         editText3 = findViewById(R.id.editTextNumber);
+        samochody = samochodyDataBase.zwrocSamochodyDAO().zwrocWszytskieSamochodyZBazy();
+        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, samochody);
+        listView.setAdapter(arrayAdapter);
         buttonDodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int rok = Integer.parseInt(editText3.getText().toString());
                 Samochody samochody = new Samochody(rok, editText2.getText().toString(), editText.getText().toString() , "sedan", false);
                 samochodyDataBase.zwrocSamochodyDAO().wstawDoBazySamochod(samochody);
+                arrayAdapter.notifyDataSetChanged();
             }
         });
-        samochody = samochodyDataBase.zwrocSamochodyDAO().zwrocWszytskieSamochodyZBazy();
-        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, samochody);
-        listView.setAdapter(arrayAdapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,14 +79,19 @@ public class MainActivity extends AppCompatActivity {
                 klikSamochod = samochody.get(i);
                 editText.setText(klikSamochod.getMarka());
                 editText2.setText(klikSamochod.getModel());
-                editText3.setText(klikSamochod.getRokProdukcji());
-                buttonAkt.setVisibility(VISIBLE);
+                editText3.setText(String.valueOf(klikSamochod.getRokProdukcji()));
+                buttonAkt.setVisibility(View.VISIBLE);
             }
         });
         buttonAkt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                klikSamochod.set
+                klikSamochod.setMarka(editText.getText().toString());
+                klikSamochod.setModel(editText2.getText().toString());
+                int rok = Integer.parseInt(editText3.getText().toString());
+                klikSamochod.setRokProdukcji(rok);
+                samochodyDataBase.zwrocSamochodyDAO().aktualizujSamochodWBazie(klikSamochod);
+                arrayAdapter.notifyDataSetChanged();
             }
         });
     }
